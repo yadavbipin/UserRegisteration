@@ -1,6 +1,5 @@
 package com.hire.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,20 +8,21 @@ import javax.persistence.Table;
 import lombok.Data;
 @Data
 @Entity
-@Table(name = "Register_Table")
-public class RegisterUser {
+@Table(name = "T_REGISTER")
+public class User {
 
 	@Id
 	@GeneratedValue
-	private Integer ino;
-	@Column(length=40)
+	private Integer userId;
+	
 	private String name;
-	@Column(length=100)
-	private String address;
-	@Column(length=40)
+	
+	private Address address;
+	
 	private String email;
-	@Column(length=10)
+	
 	private Integer mobile;
+	
 	private Integer password;
 	
 	

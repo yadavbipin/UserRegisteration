@@ -2,24 +2,18 @@ package com.hire.controller;
 
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hire.model.LoginUser;
-import com.hire.model.RegisterUser;
-import com.hire.service.ILoginUserMgmtService;
+import com.hire.model.User;
 import com.hire.service.IRegisterUserMgmtService;
 
 @RestController
-
 public class HireController {
 
-	private IRegisterUserMgmtService registerservice;
-	private ILoginUserMgmtService loginservice;
+	private IRegisterUserMgmtService registerService;
+	
 	
 //	@GetMapping("/login")
 //	public  String  showLoginForm(@ModelAttribute LoginUser userDetails) {
@@ -29,15 +23,15 @@ public class HireController {
 //	}
 
 	@PostMapping("/login")
-	public String  performLogin(Map<String,Object> map,
-			                                           @ModelAttribute LoginUser user) {
+	public String  performLogin(Map<String,Object> map) {
 		
 		   return "login_form";
 	}//method
 	
-	@PostMapping("/Register")
-	public String performRegister(@ModelAttribute RegisterUser register) {
-		
+	@PostMapping("/register")
+	public String performRegister(@ModelAttribute User user) {
+		System.out.println(user);
+		registerService.performRegister(user);
 		
 		return "register_form";
 		
