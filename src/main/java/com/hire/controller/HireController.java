@@ -2,39 +2,64 @@ package com.hire.controller;
 
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hire.exception.HireException;
 import com.hire.model.User;
 import com.hire.service.IRegisterUserMgmtService;
 
 @RestController
 public class HireController {
-
+	
+	
+	@Autowired
 	private IRegisterUserMgmtService registerService;
 	
 	
-//	@GetMapping("/login")
-//	public  String  showLoginForm(@ModelAttribute LoginUser userDetails) {
-//		userDetails.setUsername("");
-//		userDetails.setPassword("");
-//		return "login_form";
-//	}
-
-	@PostMapping("/login")
-	public String  performLogin(Map<String,Object> map) {
+	@GetMapping("/test")
+	public  String  showLoginForm() {
 		
-		   return "login_form";
-	}//method
+		return "sucess";
+	}
 	
 	@PostMapping("/register")
-	public String performRegister(@ModelAttribute User user) {
-		System.out.println(user);
-		registerService.performRegister(user);
-		
-		return "register_form";
+	public String performRegister(@RequestBody User user) {
+		try {
+			registerService.performRegister(user);
+		} catch (HireException e) {
+			return e.getMessage();
+		}
+		return "Registered successfully";
 		
 	}
-
+	
+	@GetMapping("/verifyEmail/{email}")
+	public String verifyEmail(@PathVariable String email) {
+		System.out.println(email);
+		registerService.setUserVerifiedByEmail(email);
+		return "Email verified successfully";
+	}
+	
+	@GetMapping("/sendOTPToMobile/{mobile}")
+	public String verifyEmail(@PathVariable Long mobile) {
+		// service to sent OTP to user mobile and save it DB so we can validate it later 
+		// we can check timeline
+		// Let's say 123456 send to user mobile 
+		return "OTP send to " + mobile + " successfully";
+	}
+	
+	@GetMapping("/verifyOTP/{mobile}/{otp}")
+	public String verifyOTP(@PathVariable Long mobile, @PathVariable Integer otp) {
+		// service to validate OTP against user mobile number
+		registerService.setUserVerifiedByMobile(mobile);
+		return "Mobile number verified successfully";
+	}
+	
+	
 }
